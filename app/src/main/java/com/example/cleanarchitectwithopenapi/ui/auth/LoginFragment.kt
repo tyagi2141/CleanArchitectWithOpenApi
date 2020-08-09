@@ -2,15 +2,13 @@ package com.example.cleanarchitectwithopenapi.ui.auth
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.cleanarchitectwithopenapi.R
-import com.example.cleanarchitectwithopenapi.util.ApiEmptyResponse
-import com.example.cleanarchitectwithopenapi.util.ApiErrorResponse
-import com.example.cleanarchitectwithopenapi.util.ApiSuccessResponse
+import com.example.cleanarchitectwithopenapi.ui.auth.state.LoginFields
+import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : BaseAuthFragment() {
     // TODO: Rename and change types of parameters
@@ -31,31 +29,31 @@ class LoginFragment : BaseAuthFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "LoginFragment: {${viewModel.hashCode()}}")
+        subscribeObservers()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.Login("tyagi2141@gmail.com","9987344388").observe(viewLifecycleOwner, Observer {response->
 
-            when(response){
-                is ApiSuccessResponse->{
-                    Log.e("LoginDataResponse","sucesssfull  ==  "+response.body.toString())
 
-                }
-                is ApiErrorResponse->{
-                    Log.e("LoginDataResponse"," error === "+response.errorMessage)
-
-                }
-                is ApiEmptyResponse->{
-                    Log.e("LoginDataResponse","emplty ==== "+response)
-
-                }
+    fun subscribeObservers(){
+        viewModel.viewState.observe(viewLifecycleOwner, Observer{
+            it.loginField?.let{
+                it.login_email?.let{input_email.setText(it)}
+                it.login_password?.let{input_password.setText(it)}
             }
         })
-
-
     }
-    companion object {
 
+
+
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.setLoginFields(
+            LoginFields(
+                input_email.text.toString(),
+                input_password.text.toString()
+            )
+        )
     }
 }

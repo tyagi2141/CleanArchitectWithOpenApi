@@ -1,4 +1,4 @@
-package com.example.cleanarchitectwithopenapi.ui.auth
+package com.example.cleanarchitectwithopenapi.ui
 
 import dagger.android.support.DaggerAppCompatActivity
 
