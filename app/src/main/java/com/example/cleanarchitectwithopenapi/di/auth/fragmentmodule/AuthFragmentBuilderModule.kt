@@ -1,4 +1,4 @@
-package com.example.cleanarchitectwithopenapi.di.auth
+package com.example.cleanarchitectwithopenapi.di.auth.fragmentmodule
 
 import com.example.cleanarchitectwithopenapi.ui.auth.ForgotPasswordFragment
 import com.example.cleanarchitectwithopenapi.ui.auth.LauncherFragment

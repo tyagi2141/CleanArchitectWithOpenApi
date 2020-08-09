@@ -1,4 +1,4 @@
-package com.example.cleanarchitectwithopenapi.di.auth
+package com.example.cleanarchitectwithopenapi.di.auth.viewmodelmodule
 
 import androidx.lifecycle.ViewModel
 import com.codingwithmitch.openapi.di.auth.keys.ViewModelKey

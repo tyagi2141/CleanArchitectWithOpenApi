@@ -14,6 +14,8 @@ import com.example.cleanarchitectwithopenapi.persistence.AppDatabase
 import com.example.cleanarchitectwithopenapi.persistence.AppDatabase.Companion.DATABASE_NAME
 import com.example.cleanarchitectwithopenapi.persistence.AuthTokenDao
 import com.example.cleanarchitectwithopenapi.util.Constants
+import com.example.cleanarchitectwithopenapi.util.LiveDataCallAdapter
+import com.example.cleanarchitectwithopenapi.util.LiveDataCallAdapterFactory
 import com.example.cleanarchitectwithopenapi.util.PreferenceKeys
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -25,6 +27,24 @@ import javax.inject.Singleton
 
 @Module
 class AppModule{
+
+    @Singleton
+    @Provides
+    fun provideGsonBuilder(): Gson {
+        return GsonBuilder()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofitBuilder(gson:  Gson): Retrofit.Builder{
+        return Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL)
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .addConverterFactory(GsonConverterFactory.create(gson))
+    }
+
 
     @Singleton
     @Provides
