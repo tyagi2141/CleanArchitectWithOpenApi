@@ -1,5 +1,6 @@
 package com.example.cleanarchitectwithopenapi.di.auth
 
+import android.content.SharedPreferences
 import com.example.cleanarchitectwithopenapi.openapi.api.auth.OpenApiAuthService
 import com.example.cleanarchitectwithopenapi.persistence.AccountPropertiesDao
 import com.example.cleanarchitectwithopenapi.persistence.AuthTokenDao
@@ -30,13 +31,17 @@ class AuthModule{
         sessionManager: Sessionmanager,
         authTokenDao: AuthTokenDao,
         accountPropertiesDao: AccountPropertiesDao,
-        openApiAuthService: OpenApiAuthService
+        openApiAuthService: OpenApiAuthService,
+        sharedPreferences: SharedPreferences,
+        editor: SharedPreferences.Editor
     ): AuthRepositry {
         return AuthRepositry(
             authTokenDao,
             accountPropertiesDao,
             openApiAuthService,
-            sessionManager
+            sessionManager,
+            sharedPreferences,
+            editor
         )
     }
 

@@ -6,7 +6,7 @@ import com.example.cleanarchitectwithopenapi.models.AuthToken
  * Created by Rahul on 09/08/20.
  */
 
-
+//samne se interaction
 data class AuthViewState(
     var registrationField: RegistrationField? = RegistrationField(),
     var loginField: LoginFields? = LoginFields(),

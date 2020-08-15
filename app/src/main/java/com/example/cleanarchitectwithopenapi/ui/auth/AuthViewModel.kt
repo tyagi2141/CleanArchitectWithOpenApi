@@ -1,8 +1,6 @@
 package com.example.cleanarchitectwithopenapi.ui.auth
 
 import androidx.lifecycle.LiveData
-import com.example.cleanarchitectwithopenapi.di.auth.network_responses.LoginResponse
-import com.example.cleanarchitectwithopenapi.di.auth.network_responses.RegistrationResponse
 import com.example.cleanarchitectwithopenapi.models.AuthToken
 import com.example.cleanarchitectwithopenapi.repositry.auth.AuthRepositry
 import com.example.cleanarchitectwithopenapi.ui.BaseViewModel
@@ -13,7 +11,7 @@ import com.example.cleanarchitectwithopenapi.ui.auth.state.AuthViewState
 import com.example.cleanarchitectwithopenapi.ui.auth.state.LoginFields
 import com.example.cleanarchitectwithopenapi.ui.auth.state.RegistrationField
 import com.example.cleanarchitectwithopenapi.util.AbsentLiveData
-import com.example.cleanarchitectwithopenapi.util.GenericApiResponse
+import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
 /**
@@ -24,7 +22,6 @@ class AuthViewModel
 constructor(
     val authRepositry: AuthRepositry
 ) : BaseViewModel<AuthStateEvent, AuthViewState>() {
-
 
 
     fun setRegistrationFields(registrationField: RegistrationField) {
@@ -61,19 +58,38 @@ constructor(
         return AuthViewState()
     }
 
+    @InternalCoroutinesApi
     override fun handleStateEvent(stateEvent: AuthStateEvent): LiveData<DataState<AuthViewState>> {
         when (stateEvent) {
             is LoginAttemptEvent -> {
-                return AbsentLiveData.create()
+                return authRepositry.attempLogin(
+                    stateEvent.username,
+                    stateEvent.password
+                )
             }
             is RegistrationAttempt -> {
-                return AbsentLiveData.create()
+                return authRepositry.registration(
+                    stateEvent.email,
+                    stateEvent.username,
+                    stateEvent.password,
+                    stateEvent.confirm_password
+                )
             }
             is CheckPreviousAuthEvent -> {
-                return AbsentLiveData.create()
+                return authRepositry.checkPreviousAuthUser()
             }
 
 
         }
     }
+
+    fun cancelActiveJob(){
+        authRepositry.cancelActiveJob()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        cancelActiveJob()
+    }
+
 }

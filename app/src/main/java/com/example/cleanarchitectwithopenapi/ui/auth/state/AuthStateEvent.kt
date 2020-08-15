@@ -3,6 +3,7 @@ package com.example.cleanarchitectwithopenapi.ui.auth.state
 /**
  * Created by Rahul on 09/08/20.
  */
+//
 sealed class AuthStateEvent {
 
     data class LoginAttemptEvent(

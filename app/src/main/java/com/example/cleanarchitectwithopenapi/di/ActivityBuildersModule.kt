@@ -5,6 +5,7 @@ import com.example.cleanarchitectwithopenapi.di.auth.AuthModule
 import com.example.cleanarchitectwithopenapi.di.auth.AuthScope
 import com.example.cleanarchitectwithopenapi.di.auth.viewmodelmodule.AuthViewModelModule
 import com.example.cleanarchitectwithopenapi.ui.auth.AuthActivity
+import com.example.cleanarchitectwithopenapi.ui.main.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -20,4 +21,6 @@ abstract class ActivityBuildersModule {
     )
     abstract fun contributeAuthActivity(): AuthActivity
 
+    @ContributesAndroidInjector
+    abstract fun contributMainActivity():MainActivity
 }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.example.cleanarchitectwithopenapi.R
+import com.example.cleanarchitectwithopenapi.ui.auth.state.AuthStateEvent
 import com.example.cleanarchitectwithopenapi.ui.auth.state.LoginFields
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -29,22 +30,29 @@ class LoginFragment : BaseAuthFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Log.d(TAG, "LoginFragment: {${viewModel.hashCode()}}")
+        login_button.setOnClickListener {
+            login()
+        }
         subscribeObservers()
     }
 
+    fun login() {
+        viewModel.setStateEvent(
+            AuthStateEvent.LoginAttemptEvent(
+                input_email.text.toString(),
+                input_password.text.toString()
+            )
+        )
+    }
 
-
-    fun subscribeObservers(){
-        viewModel.viewState.observe(viewLifecycleOwner, Observer{
-            it.loginField?.let{
-                it.login_email?.let{input_email.setText(it)}
-                it.login_password?.let{input_password.setText(it)}
+    fun subscribeObservers() {
+        viewModel.viewState.observe(viewLifecycleOwner, Observer {
+            it.loginField?.let {
+                it.login_email?.let { input_email.setText(it) }
+                it.login_password?.let { input_password.setText(it) }
             }
         })
     }
-
-
-
 
 
     override fun onDestroyView() {
